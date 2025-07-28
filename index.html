@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JZN SENSI</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Roboto', sans-serif;
+      background-color: #000;
+      background-image: url('https://cdn.jsdelivr.net/gh/davidplayzdev/imgcdn/red-points-bg.png');
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .painel {
+      background-color: #111;
+      color: white;
+      border: 2px solid #ff0000;
+      border-radius: 12px;
+      padding: 20px;
+      width: 320px;
+      box-shadow: 0 0 15px #ff000080;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 16px;
+      margin-bottom: 10px;
+      text-shadow: 0 0 5px red;
+    }
+
+    .tabs {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 15px;
+    }
+
+    .tab {
+      flex: 1;
+      text-align: center;
+      padding: 10px;
+      cursor: pointer;
+      background-color: #222;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      margin: 0 5px;
+      font-size: 14px;
+    }
+
+    .tab.active {
+      background-color: #ff0000;
+    }
+
+    .content {
+      display: none;
+    }
+
+    .content.active {
+      display: block;
+    }
+
+    /* Checkbox estilo antigo com check ✔️ */
+    .toggle {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+      font-size: 14px;
+      color: white;
+      cursor: pointer;
+    }
+
+    .toggle input {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      background-color: #111;
+      border: 2px solid #555;
+      border-radius: 6px; /* Mais arredondado como antes */
+      position: relative;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .toggle input:checked {
+      border-color: #ff0000;
+    }
+
+    .toggle input:checked::after {
+      content: '✔';
+      color: #ff0000;
+      font-size: 15px;
+      position: absolute;
+      left: 2px;
+      top: -1px;
+    }
+
+    /* Estilo do slider FOV */
+    input[type="range"] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 6px;
+      background: #440000;
+      border-radius: 5px;
+      outline: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #ff0000;
+      border: 2px solid #fff;
+      cursor: pointer;
+      box-shadow: 0 0 5px #ff0000;
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #ff0000;
+      border: 2px solid #fff;
+      cursor: pointer;
+      box-shadow: 0 0 5px #ff0000;
+    }
+
+    .fov-slider {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    select, input[type="radio"] {
+      margin: 8px 0;
+    }
+
+    .aimbot-tipo {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
+
+    .info-text {
+      font-size: 14px;
+      margin: 10px 0;
+    }
+
+    .info-text b {
+      color: #ff0000;
+    }
+
+    .inject-btn {
+      width: 100%;
+      padding: 12px;
+      background-color: #ff0000;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      margin-top: 10px;
+      box-shadow: 0 0 10px #ff000088;
+      cursor: pointer;
+    }
+
+    .inject-btn:hover {
+      background-color: #ff3333;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="painel">
+    <h2>AUXILIO BY @JZNSENSI</h2>
+
+    <div class="tabs">
+      <button class="tab active" onclick="showTab('aimbot', this)">Aimbot</button>
+      <button class="tab" onclick="showTab('info', this)">Info</button>
+    </div>
+
+    <div id="aimbot" class="content active">
+      <label class="toggle">
+        <input type="checkbox" onchange="toggleSwitch(this)">
+        Ativar Auxílio
+      </label>
+
+      <label class="toggle">
+        <input type="checkbox" onchange="toggleSwitch(this)">
+        Ativar Fov
+      </label>
+
+      <div class="fov-slider">
+        <input type="range" min="0" max="10" value="5" id="fovRange" oninput="updateFovValue(this.value)" />
+        <span id="fovValue" style="margin-left:10px;">Fov 5</span>
+      </div>
+
+      <select style="width: 100%; padding: 6px; background: #1a1a1a; color: white; border: 1px solid #ff0000; border-radius: 6px;">
+        <option>Auxílio Head</option>
+        <option>Auxílio Corpo</option>
+      </select>
+
+      <div class="aimbot-tipo">
+        <label><input type="radio" name="tipo"> Ao Atirar</label>
+        <label><input type="radio" name="tipo"> Ao Olhar</label>
+      </div>
+    </div>
+
+    <div id="info" class="content">
+      <div class="info-text"><b>Modelo:</b> Android</div>
+      <div class="info-text"><b>Key:</b> jznnx.ff-dias-auxilio</div>
+      <hr style="border: 0.5px solid #444; margin: 10px 0;">
+      <div class="info-text"><b>Dicas:</b> Ative Funções no Treinamento.</div>
+    </div>
+
+    <button class="inject-btn">INJETAR FUNÇÕES NO JOGO</button>
+  </div>
+
+  <script>
+    function showTab(tabId, element) {
+      const contents = document.querySelectorAll('.content');
+      const tabs = document.querySelectorAll('.tab');
+
+      contents.forEach(c => c.classList.remove('active'));
+      tabs.forEach(t => t.classList.remove('active'));
+
+      document.getElementById(tabId).classList.add('active');
+      element.classList.add('active');
+    }
+
+    function updateFovValue(val) {
+      document.getElementById("fovValue").innerText = "Fov " + val;
+    }
+
+    function toggleSwitch(el) {
+      // Lógica extra aqui se quiser
+    }
+  </script>
+
+</body>
+</html>
